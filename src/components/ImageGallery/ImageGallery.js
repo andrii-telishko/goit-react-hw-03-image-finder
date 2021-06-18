@@ -1,14 +1,24 @@
-import React from 'react'
+import React from 'react';
 import ImageGalleryItem from '../ImageGalleryItem'
 
-export default function ImageGallery({ images }) {
+  const ImageGallery = ({images}) => {
     return (
       <ul className="ImageGallery">
-        {images.map(({id, tags, webformatURL }) => (
-          <li key={id} className="ImageGalleryItem">
-               <ImageGalleryItem img={webformatURL} alt={tags} />
-          </li>
-        ))}
+            {images.map(({ id, webformatURL, tags }) => {
+                return (
+                    <li className="ImageGalleryItem" key={id}>
+                        <ImageGalleryItem
+                            url={webformatURL}
+                            alt={ tags }/>
+                 </li>
+             );
+         })}
       </ul>
-    );
+  );
 };
+
+export default ImageGallery;
+
+
+        
+        

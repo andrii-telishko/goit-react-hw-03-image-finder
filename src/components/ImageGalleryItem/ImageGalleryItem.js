@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-export default function ImageGalleryItem({img, alt}) {
+const ImageGalleryItem = ({url, alt}) => {
     return (
-      <img src={img} alt={alt} className="ImageGalleryItem-image" />
+       <img src={url} alt={alt} className="ImageGalleryItem-image" />
     );
 };
+
+export default ImageGalleryItem

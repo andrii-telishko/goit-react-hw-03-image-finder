@@ -1,17 +1,21 @@
-import SearchBar from './components/SearchBar'
 import './App.css';
 import React, { Component } from 'react';
 import './styles.css';
+import SearchBar from './components/SearchBar';
 import ImageGallery from './components/ImageGallery';
 import axios from 'axios';
-import Button from './components/Button'
+import Button from './components/Button';
+import Spinner from './components/Spinner';
+import Modal from './components/Modal'
+
+
 
 class App extends Component {
   state = {
     searchQuery: '',
-    images: [],
     currentPage: 1,
-    isLoading: false
+    images: [],
+    isLoading: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -23,9 +27,11 @@ class App extends Component {
   onChangeQuery = query => {
     this.setState({
       searchQuery: query,
+      currentPage: 1,
       images: [],
-      currentPage: 1
+      //error: null,
     });
+    console.log(this.state.searchQuery);
   };
 
   fetchImages = () => {
@@ -33,36 +39,32 @@ class App extends Component {
     //const options = { searchQuery, currentPage };
 
     this.setState({ isLoading: true });
-
-    axios.get(
-      `https://pixabay.com/api/?q=${searchQuery}&page=${currentPage}
-      &key=21283413-606cd1182a523c739b6934f12&image_type=photo&orientation=horizontal&per_page=15`
-    ).then(response => response.data.hits)
-      .then(images => {
-        this.setState(prevState => ({
-          images: [...prevState.images, ...images],
-          currentPage: prevState.currentPage + 1,
-        }));
-
-        window.scrollTo({
-           top: document.documentElement.scrollHeight,
-           behavior: 'smooth',
-         });
-      }).finally(() => this.setState({ isLoading: false }));
-  };
-
-  render() {
-    return (
-        <>
-        <SearchBar onSubmit={this.onChangeQuery} />
-        <ImageGallery images={this.state.images} />
-        {this.state.images.length > 0 && <Button
-          loadMoreImages={this.fetchImages}
-          isLoading={ this.state.isLoading }/>}
-        </>
-      );
+     
+    axios.get(`https:pixabay.com/api/?q=${searchQuery}&page=${currentPage}&key=21283413-606cd1182a523c739b6934f12&image_type=photo&orientation=horizontal&per_page=15`).then(response => response.data.hits).then(images => {
+      this.setState(prevState => ({
+        images: [...prevState.images, ...images],
+        currentPage: prevState.currentPage + 1,
+      }));
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    }).finally(() => this.setState({ isLoading: false }));
   };
   
+render() {
+    return (
+      <>
+        <SearchBar changeQuery={this.onChangeQuery} />
+        <ImageGallery images={this.state.images} />
+        {this.state.isLoading && <Spinner/>}
+        {this.state.images.length > 0 && !this.state.isLoading &&
+          <Button onClick={this.fetchImages} />}
+        <Modal/>
+        </>
+       )
+  };
 };
+
 
 export default App;

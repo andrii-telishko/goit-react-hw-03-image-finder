@@ -215,3 +215,8 @@ img {
   display: inline-flex;
   margin-right: 10px;
 }
+
+.spinner-conteiner {
+  text-align: center;
+  margin-top: 20px;
+}

@@ -1,22 +1,7 @@
-import React from 'react'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
+import React from 'react';
 
-export default function Button({loadMoreImages, isLoading}) {
-    return (
-        <div className='button-conteiner'>
-            <button type='button' className='Button'
-                onClick={loadMoreImages}>
-                {isLoading && <Loader
-                                  type="Puff"
-                                  color="#00BFFF"
-                                  height={25}
-                                  width={25}
-                                  className='loader'
-                                  //timeout={3000} //3 secs
-                               />}
-                Load more</button>
-        </div>
-       
-    );
+const Button = ({onClick}) => {
+    return (<div className='button-conteiner'><button type='button' className="Button" onClick={onClick}>Load more</button></div>);
 };
+
+export default Button;
