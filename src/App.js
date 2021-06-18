@@ -47,7 +47,7 @@ class App extends Component {
         currentPage: prevState.currentPage + 1,
       }));
       this.scrollWindow();
-    }).catch(error => this.setState({ error }))
+    })
       .finally(() => this.setState({ isLoading: false }));
   };
 
