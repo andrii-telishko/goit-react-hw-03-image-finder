@@ -7,10 +7,8 @@ import ImageGalleryItem from '../ImageGalleryItem'
             {images.map(({ id, webformatURL, tags, largeImageURL }) => {
                 return (
                     <li className="ImageGalleryItem" key={id} onClick={() => {openModal(largeImageURL, tags)}}>
-                        <ImageGalleryItem
-                            url={webformatURL}
-                            alt={ tags }/>
-                 </li>
+                        <ImageGalleryItem url={webformatURL} alt={ tags }/>
+                    </li>
              );
          })}
       </ul>
