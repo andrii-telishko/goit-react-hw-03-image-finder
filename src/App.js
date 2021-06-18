@@ -16,6 +16,9 @@ class App extends Component {
     currentPage: 1,
     images: [],
     isLoading: false,
+    showModal: false,
+    modalImg: '',
+    modalAlt: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -31,7 +34,6 @@ class App extends Component {
       images: [],
       //error: null,
     });
-    console.log(this.state.searchQuery);
   };
 
   fetchImages = () => {
@@ -51,16 +53,33 @@ class App extends Component {
       });
     }).finally(() => this.setState({ isLoading: false }));
   };
+
+  openModal = (url, alt) => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+      modalImg: url,
+      modalAlt: alt
+    }));
+  };
+
+  closeModal = (url, alt) => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+      modalImg: '',
+      modalAlt: ''
+    }));
+  };
   
 render() {
     return (
       <>
         <SearchBar changeQuery={this.onChangeQuery} />
-        <ImageGallery images={this.state.images} />
+        <ImageGallery images={this.state.images} openModal={ this.openModal }/>
         {this.state.isLoading && <Spinner/>}
         {this.state.images.length > 0 && !this.state.isLoading &&
           <Button onClick={this.fetchImages} />}
-        <Modal/>
+        {this.state.showModal && <Modal largeImg={this.state.modalImg}
+          largeAlt={ this.state.modalAlt } closeModal={this.closeModal}/>}
         </>
        )
   };
